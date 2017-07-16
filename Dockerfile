@@ -31,6 +31,7 @@ RUN export DEBIAN_FRONTEND=noninteractive; apt-get -y update \
     libmariadb-client-lgpl-dev \
     libpq-dev \
     libssh2-1-dev \
+    libnlopt-dev \
     ed \
     clang  \
     ccache \
