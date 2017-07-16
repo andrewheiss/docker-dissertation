@@ -37,7 +37,18 @@ RUN export DEBIAN_FRONTEND=noninteractive; apt-get -y update \
     make \
     pandoc \
     pandoc-citeproc
-RUN ["install2.r", "-r 'https://cloud.r-project.org'", "readODS", "RCurl", "PKI", "zoo", "stringi", "jsonlite", "cshapes", "maptools", "spdep", "Matrix", "rgeos", "rgdal", "sp", "testthat", "lubridate", "haven", "readxl", "WDI", "RJSONIO", "stargazer", "scales", "rstanarm", "Rcpp", "bindrcpp", "Cairo", "viridis", "ggrepel", "ggstance", "broom", "gridExtra", "pryr", "alluvial", "countrycode", "tm", "NLP", "DT", "stringr", "forcats", "magrittr", "dplyr", "purrr", "readr", "tidyr", "tibble", "ggplot2", "tidyverse", "plyr", "minqa", "colorspace", "deldir", "rjson", "rsconnect", "markdown", "futile.logger", "base64enc", "rstudioapi", "StanHeaders", "RcppEigen", "rstan", "remotes", "xml2", "codetools", "mnormt", "shinythemes", "bayesplot", "nloptr", "shiny", "httr", "assertthat", "lazyeval", "htmltools", "coda", "gtable", "glue", "reshape2", "gmodels", "slam", "cellranger", "gdata", "nlme", "psych", "lmtest", "lme4", "rvest", "mime", "miniUI", "gtools", "devtools", "LearnBayes", "MASS", "colourpicker", "hms", "expm", "inline", "lambda.r", "shinystan", "RColorBrewer", "yaml", "memoise", "loo", "dygraphs", "boot", "rlang", "pkgconfig", "matrixStats", "lattice", "bindr", "rstantools", "htmlwidgets", "labeling", "R6", "foreign", "withr", "xts", "modelr", "futile.options", "threejs", "vcd", "digest", "xtable", "httpuv", "munsell", "shinyjs", "packrat", "formatR"]
+
+# Install minqa and nloptr from CRAN mirror because nloptr comes from 
+# http://ab-initio.mit.edu/wiki/index.php/NLopt
+# which is incredibly unstable
+RUN wget https://github.com/cran/minqa/archive/1.2.4.tar.gz \
+    && R CMD INSTALL 1.2.4.tar.gz \
+    && rm 1.2.4.tar.gz \
+    && wget https://github.com/cran/nloptr/archive/1.0.4.tar.gz \
+    && R CMD INSTALL 1.0.4.tar.gz \
+    && rm 1.0.4.tar.gz
+
+RUN ["install2.r", "-r 'https://cloud.r-project.org'", "readODS", "RCurl", "PKI", "zoo", "stringi", "jsonlite", "cshapes", "maptools", "spdep", "Matrix", "rgeos", "rgdal", "sp", "testthat", "lubridate", "haven", "readxl", "WDI", "RJSONIO", "stargazer", "scales", "rstanarm", "Rcpp", "bindrcpp", "Cairo", "viridis", "ggrepel", "ggstance", "broom", "gridExtra", "pryr", "alluvial", "countrycode", "tm", "NLP", "DT", "stringr", "forcats", "magrittr", "dplyr", "purrr", "readr", "tidyr", "tibble", "ggplot2", "tidyverse", "plyr", "colorspace", "deldir", "rjson", "rsconnect", "markdown", "futile.logger", "base64enc", "rstudioapi", "StanHeaders", "RcppEigen", "rstan", "remotes", "xml2", "codetools", "mnormt", "shinythemes", "bayesplot", "shiny", "httr", "assertthat", "lazyeval", "htmltools", "coda", "gtable", "glue", "reshape2", "gmodels", "slam", "cellranger", "gdata", "nlme", "psych", "lmtest", "lme4", "rvest", "mime", "miniUI", "gtools", "devtools", "LearnBayes", "MASS", "colourpicker", "hms", "expm", "inline", "lambda.r", "shinystan", "RColorBrewer", "yaml", "memoise", "loo", "dygraphs", "boot", "rlang", "pkgconfig", "matrixStats", "lattice", "bindr", "rstantools", "htmlwidgets", "labeling", "R6", "foreign", "withr", "xts", "modelr", "futile.options", "threejs", "vcd", "digest", "xtable", "httpuv", "munsell", "shinyjs", "packrat", "formatR"]
 RUN ["installGithub.r", "Rapporter/pander@08a23a7", "hadley/productplots@391f500", "yihui/knitr@f3a490b", "gaborcsardi/crayon@750190f"]
 WORKDIR /payload/
 
